@@ -57,13 +57,4 @@ public class Endereco {
     }
 
 
-//    public Endereco(DadosAtualizaMedico dadosAtualizaMedico) {
-//        this.logradouro = dadosAtualizaMedico.logradouro();
-//        this.bairro = enderecoRequestDTO.bairro();
-//        this.cep = enderecoRequestDTO.cep();
-//        this.cidade = enderecoRequestDTO.cidade();
-//        this.uf = enderecoRequestDTO.uf();
-//        this.numero = enderecoRequestDTO.numero();
-//        this.complemento = enderecoRequestDTO.complemento();
-//    }
 }

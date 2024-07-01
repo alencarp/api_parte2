@@ -13,8 +13,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("medicos")
 public class MedicoController {
@@ -40,5 +38,11 @@ public class MedicoController {
     public void atualizar(@RequestBody @Valid DadosAtualizaMedico dadosAtualizaMedico){
         Medico medico = medicoRepository.getReferenceById(dadosAtualizaMedico.id()); //este medico está vindo do BD, portanto, está com as infs desatualizadas
         medico.atualizarInformacoes(dadosAtualizaMedico);  //Ex.: pego o nome do médico atual e substituo pelo que está chegando por parâmetro, no dto
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void excluir(@PathVariable Long id) {
+        medicoRepository.deleteById(id);
     }
 }
