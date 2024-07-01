@@ -8,6 +8,7 @@ import med.voll.api.controller.medico.MedicoResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +27,9 @@ public class MedicoController {
         medicoRepository.save(new Medico(medicoRequestDTO));
     }
 
+    //size e sort setados na url sobrepõem os valores que estão aqui no método.
     @GetMapping
-    public Page<MedicoResponseDTO> listar(Pageable paginacao) {
+    public Page<MedicoResponseDTO> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
         return medicoRepository.findAll(paginacao).map(MedicoResponseDTO::new);
     }
 }
