@@ -28,7 +28,7 @@ public class MedicoController {
 
     @GetMapping
     public Page<MedicoResponseDTO> listar(@PageableDefault(size = 10, sort = {"nome"}) Pageable paginacao) {
-        return medicoRepository.findAll(paginacao).map(MedicoResponseDTO::new);
+        return medicoRepository.findAllByAtivoTrue(paginacao).map(MedicoResponseDTO::new);
     }
 
     //1 - Carregar esse médico do BD
@@ -40,9 +40,20 @@ public class MedicoController {
         medico.atualizarInformacoes(dadosAtualizaMedico);  //Ex.: pego o nome do médico atual e substituo pelo que está chegando por parâmetro, no dto
     }
 
+
+    /**
+     * @param id
+     *
+     * Exclusão lógica
+     * 1- Carregar a entidade do BD
+     * 2- Inativá-la: (Setar o atributo ativo = false)
+     * 3- Disparar o update no BD (por causa dos itens 1 e 2 a JPA vai disparar o update automaticamente.
+     *                             Portanto, não tem nada para fazer no passo 3)
+     */
     @DeleteMapping("/{id}")
     @Transactional
     public void excluir(@PathVariable Long id) {
-        medicoRepository.deleteById(id);
+        Medico medico = medicoRepository.getReferenceById(id);
+        medico.excluir();
     }
 }

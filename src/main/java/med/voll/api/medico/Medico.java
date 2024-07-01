@@ -24,7 +24,10 @@ public class Medico {
     @Embedded //EMBEDDABLE ATTRIBUTE da JPA => fica em uma classe separada, mas no BD ele considera que os campos da classe Endereco fazem parte da mesma tabela de medicos
     private Endereco endereco;
 
+    private Boolean ativo;
+
     public Medico(MedicoRequestDTO medicoRequestDTO) {
+        this.ativo = true;
         this.nome = medicoRequestDTO.nome();
         this.email = medicoRequestDTO.email();
         this.telefone = medicoRequestDTO.telefone();
@@ -45,5 +48,9 @@ public class Medico {
         if (dadosAtualizaMedico.endereco() != null) {
             this.endereco.atualizarInformacoes(dadosAtualizaMedico.endereco());
         }
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 }
