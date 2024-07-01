@@ -6,6 +6,8 @@ import med.voll.api.controller.medico.MedicoRepository;
 import med.voll.api.controller.medico.MedicoRequestDTO;
 import med.voll.api.controller.medico.MedicoResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,19 +27,7 @@ public class MedicoController {
     }
 
     @GetMapping
-    public List<MedicoResponseDTO> listar() {
-        //map() mapeia de MedicoResponseDTO para Medico
-        return medicoRepository.findAll().stream().map(MedicoResponseDTO::new).toList();
-
-
-        /**
-         * Function<String, Integer> funcao = new Function<String, Integer>() {
-         *                        @Override
-         *            public Integer apply(String s) {
-         * 				return s.length();
-         *            }        * 		};
-         * 		Comparator<String> compardorDeStrings = Comparator.comparing(funcao);
-         * 		palavras.sort(compardorDeStrings);
-         */
+    public Page<MedicoResponseDTO> listar(Pageable paginacao) {
+        return medicoRepository.findAll(paginacao).map(MedicoResponseDTO::new);
     }
 }
