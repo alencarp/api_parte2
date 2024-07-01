@@ -1,17 +1,17 @@
-package med.voll.api.controller.medico;
+package med.voll.api.medico;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import med.voll.api.controller.endereco.Endereco;
+import lombok.*;
+import med.voll.api.endereco.Endereco;
+import med.voll.api.endereco.EnderecoRequestDTO;
+
 @Table(name = "medicos")
 @Entity(name = "Medico")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of="id")
+@ToString
 public class Medico {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,5 +32,19 @@ public class Medico {
         this.crm = medicoRequestDTO.crm();
         this.especialidade = medicoRequestDTO.especialidade();
         this.endereco = new Endereco(medicoRequestDTO.endereco());
+    }
+
+
+    //Ex.: pego o nome do médico atual e substituo pelo que está chegando por parâmetro, no dto
+    public void atualizarInformacoes(DadosAtualizaMedico dadosAtualizaMedico) {
+        if (dadosAtualizaMedico.nome() != null) {
+            this.nome = dadosAtualizaMedico.nome();
+        }
+        if (dadosAtualizaMedico.telefone() != null) {
+            this.telefone = dadosAtualizaMedico.telefone();
+        }
+        if (dadosAtualizaMedico.endereco() != null) {
+            this.endereco.atualizarInformacoes(dadosAtualizaMedico.endereco());
+        }
     }
 }
