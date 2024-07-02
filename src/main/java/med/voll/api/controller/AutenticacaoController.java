@@ -2,6 +2,8 @@ package med.voll.api.controller;
 
 import jakarta.validation.Valid;
 import med.voll.api.domain.usuario.DadosAutenticacao;
+import med.voll.api.domain.usuario.Usuario;
+import med.voll.api.infra.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +21,9 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
 
     // preciso chamar o método AutenticacaoService.loadUserByUsername(String username) que faz a autenticação
     //Porém, no Spring não chamamos direto a classe, mas chamamos a AutenticationManager, que por baixo dos panos vai chamar ela
@@ -31,6 +36,9 @@ public class AutenticacaoController {
         //retorna um objeto que representa o usuario autenticado
         Authentication authentication = manager.authenticate(token);
 
-        return ResponseEntity.ok().build();
+        //Para usar JWT pegamos no site A Auth0 (biblioteca em Java para gerar tokens em JWT)
+
+
+        return ResponseEntity.ok(tokenService.gerarToken((Usuario) authentication.getPrincipal()));
     }
 }
