@@ -1,11 +1,10 @@
-package med.voll.api.endereco;
+package med.voll.api.domain.endereco;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import med.voll.api.medico.DadosAtualizaMedico;
 
 @Embeddable //tem que colocar esta anotação para o JPA deixar os atributos desta tabela como campos na tabela de medicos.
 @Getter
