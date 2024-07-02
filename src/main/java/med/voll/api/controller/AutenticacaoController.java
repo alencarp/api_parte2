@@ -3,6 +3,7 @@ package med.voll.api.controller;
 import jakarta.validation.Valid;
 import med.voll.api.domain.usuario.DadosAutenticacao;
 import med.voll.api.domain.usuario.Usuario;
+import med.voll.api.infra.security.DadosTokenJWT;
 import med.voll.api.infra.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,14 +32,15 @@ public class AutenticacaoController {
     public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
 
         //converte do nosso dto para o UsernamePasswordAuthenticationToken(que é tipo um dto do Spring)
-        var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
 
         //retorna um objeto que representa o usuario autenticado
-        Authentication authentication = manager.authenticate(token);
+        Authentication authentication = manager.authenticate(authenticationToken);
 
         //Para usar JWT pegamos no site A Auth0 (biblioteca em Java para gerar tokens em JWT)
+        String tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
 
-
-        return ResponseEntity.ok(tokenService.gerarToken((Usuario) authentication.getPrincipal()));
+        //criei o dto DadosTokenJWT para responder com o token gerado
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }
