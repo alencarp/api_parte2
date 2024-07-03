@@ -30,7 +30,7 @@ public class AutenticacaoController {
     //Porém, no Spring não chamamos direto a classe, mas chamamos a AutenticationManager, que por baixo dos panos vai chamar ela
     @PostMapping
     public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
-
+        System.out.println("Chegou no efetuar login");
         //converte do nosso dto para o UsernamePasswordAuthenticationToken(que é tipo um dto do Spring)
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
 
