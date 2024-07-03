@@ -26,21 +26,20 @@ public class AutenticacaoController {
     private TokenService tokenService;
 
 
+
     // preciso chamar o método AutenticacaoService.loadUserByUsername(String username) que faz a autenticação
     //Porém, no Spring não chamamos direto a classe, mas chamamos a AutenticationManager, que por baixo dos panos vai chamar ela
+
+    //1-converte do nosso dto para o UsernamePasswordAuthenticationToken(que é tipo um dto do Spring)
+    //2-Aqui inicia o processo de autenticação. Retorna um objeto que representa o usuario autenticado
+    //3-Para usar JWT pegamos no site jwt.io, a Auth0 (biblioteca em Java para gerar tokens em JWT)
+    //4-criei o dto DadosTokenJWT para responder com o token gerado
     @PostMapping
     public ResponseEntity efetuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
         System.out.println("Chegou no efetuar login");
-        //converte do nosso dto para o UsernamePasswordAuthenticationToken(que é tipo um dto do Spring)
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-
-        //retorna um objeto que representa o usuario autenticado
         Authentication authentication = manager.authenticate(authenticationToken);
-
-        //Para usar JWT pegamos no site A Auth0 (biblioteca em Java para gerar tokens em JWT)
         String tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
-
-        //criei o dto DadosTokenJWT para responder com o token gerado
         return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }

@@ -1,4 +1,4 @@
-# api
+# api += api_parte2
 API Rest da aplicação Voll.med
 
 ## Objetivos
@@ -21,3 +21,5 @@ API Rest da aplicação Voll.med
 - Tratamento de erros
 - Autenticação / Autorização com Spring Security
 - Token JWT
+
+- CorsConfiguration para conexão com o Front-end
